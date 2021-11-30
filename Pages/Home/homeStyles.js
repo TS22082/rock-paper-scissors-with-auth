@@ -10,7 +10,8 @@ const homeStyles = StyleSheet.create({
   signOutButton: {
     width: 100,
     height: 100,
-    backgroundColor: "#7986cb",
+    backgroundColor: "#ef5350",
+    borderRadius: 50,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -29,6 +30,7 @@ const homeStyles = StyleSheet.create({
     width: 100,
     height: 50,
     backgroundColor: "#5c6bc0",
+    borderRadius: 50,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -36,6 +38,10 @@ const homeStyles = StyleSheet.create({
 
   buttonText: {
     color: "white",
+  },
+
+  outcomeText: {
+    fontSize: 20,
   },
 });
 

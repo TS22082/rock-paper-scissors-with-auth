@@ -7,6 +7,7 @@ const Home = (props) => {
   const [highScore, setHighScore] = useState(0);
   const [currentScore, setCurrentScore] = useState(0);
   const gameChoices = ["rock", "paper", "scissors"];
+  const [outcome, setOutCome] = useState({ user: "", computer: "" });
 
   useEffect(() => {
     if (props.userId === "") props.navigation.navigate("Auth");
@@ -40,6 +41,7 @@ const Home = (props) => {
     const computerChoice = Math.floor(Math.random() * 3);
     console.log("user ===> ", userChoice);
     console.log("computer ===> ", gameChoices[computerChoice]);
+    setOutCome({ user: userChoice, computer: gameChoices[computerChoice] });
 
     if (userChoice === gameChoices[computerChoice]) return;
 
@@ -73,6 +75,15 @@ const Home = (props) => {
           </Pressable>
         ))}
       </View>
+      {outcome.user !== "" ? (
+        <>
+          <Text style={homeStyles.outcomeText}>User: {outcome.user}</Text>
+          <Text style={homeStyles.outcomeText}>
+            Computer: {outcome.computer}
+          </Text>
+        </>
+      ) : null}
+
       <Text style={{ fontSize: 50 }}>Current score: {currentScore}</Text>
       <Text style={{ fontSize: 75 }}>Highest score: {highScore}</Text>
       <Pressable style={homeStyles.signOutButton} onPress={signOut}>
