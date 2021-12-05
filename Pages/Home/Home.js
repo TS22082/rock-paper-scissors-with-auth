@@ -9,29 +9,19 @@ const Home = (props) => {
   const gameChoices = ["rock", "paper", "scissors"];
   const [outcome, setOutCome] = useState({ user: "", computer: "" });
 
+  const db = getDatabase();
+  const reference = ref(db, "users/" + props.userId);
+
+  const updateScore = (snapshot) => {
+    if (snapshot.val() !== null) setHighScore(snapshot.val().highscore);
+  };
+
   useEffect(() => {
-    if (props.userId === "") props.navigation.navigate("Auth");
-    else {
-      const db = getDatabase();
-      const reference = ref(db, "users/" + props.userId);
-      onValue(
-        reference,
-        (snapshot) => {
-          if (snapshot.val() !== null) {
-            const highscore = snapshot.val().highscore;
-            setHighScore(highscore);
-          }
-        },
-        {
-          onlyOnce: true,
-        }
-      );
-    }
+    if (props.userId === "") props.navigation.replace("Auth");
+    else return onValue(reference, updateScore);
   }, [props.userId]);
 
   const storeHighScore = (score) => {
-    const db = getDatabase();
-    const reference = ref(db, "users/" + props.userId);
     set(reference, {
       highscore: score,
     });
@@ -51,6 +41,7 @@ const Home = (props) => {
       (userChoice === "rock" && gameChoices[computerChoice] === "scissors")
     ) {
       setCurrentScore(currentScore + 1);
+
       if (currentScore >= highScore) {
         setHighScore(currentScore + 1);
         storeHighScore(currentScore + 1);
